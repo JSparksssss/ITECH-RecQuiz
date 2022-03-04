@@ -25,8 +25,9 @@
  video.markers({
    //When reach the markers, load the quiz page
    onMarkerReached: function(marker) {
+       
+     $('#quiz-box').css('visibility', 'visible');
      video.pause()
-     $('#quiz-box').show()
      //Display questions
      displayNext();
      let quiz = marker.text
@@ -34,9 +35,9 @@
    },
    markers: [
        //重构一下
-       
-       {time: 1, text:questions[0]},
-       {time: 2, text:questions[1]},
+
+       {time: 100, text:questions[0]},
+       {time: 150, text:questions[1]},
    ]
  });
 
@@ -52,8 +53,9 @@
     
     // If no user selection, progress is stopped
     if (isNaN(selections[questionCounter])) {
-      alert('Please make a selection!');
-    } else {
+        alert('Please make a selection!');
+    } 
+    else {
         var index = selections[questionCounter]
         console.log("User choice:",questions[questionCounter].choices[index])
         console.log("Correct Answer:",questions[questionCounter]['correctAnswer'])
@@ -63,10 +65,10 @@
         else{
             alert(`Your answer is wrong. The correct Answer is ${questions[questionCounter].correctAnswer}`)
         }
-      questionCounter++;
-    
+        questionCounter++;
+        video.play()
       //After finishing a question, hide the quesition box
-      $('#quiz-box').hide()
+      $('#quiz-box').css('visibility', 'hidden');
     }
   });
   

@@ -50,5 +50,6 @@ def register(request):
     return HttpResponse("This is register page.")
 
 
+
 #TBC...
 #Quiz Report, and other functionalities
