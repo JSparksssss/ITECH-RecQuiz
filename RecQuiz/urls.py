@@ -10,5 +10,8 @@ urlpatterns = [
     path('add_new_course/',views.add_new_course,name="add_new_course"),
     path('course/',views.course,name="course"),
     path('register/',views.register,name="register"),
+<<<<<<< HEAD
     
+=======
+>>>>>>> origin/model
 ]
