@@ -48,8 +48,7 @@ def course(request):
     return render(request,'RecQuiz/course.html',context=course_dict)
 def register(request):
     return HttpResponse("This is register page.")
-
-
+   
 
 #TBC...
 #Quiz Report, and other functionalities
