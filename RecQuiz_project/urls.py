@@ -20,5 +20,4 @@ from RecQuiz import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('recquiz/',include('RecQuiz.urls')),
-    
 ]
