@@ -23,9 +23,26 @@ def my_course(request):
     
     return render(request, 'RecQuiz/my_course.html', context = context_dict)
 
-def add_new_course(request):
+
+def new_course_page(request):
+    #应该能够筛选出用户未注册的course
+    context_dict = {}
+    try:
+        # user = User.objects.get(slug=user_id_slug)
+        # course = Course.objects.filter(User=user)
+        courses = Course.objects.all()
+        context_dict['courses'] = courses
+    except Course.DoesNotExist:
+        context_dict['course'] = None
+    
+    return render(request,'RecQuiz/new_course.html',context = context_dict)
+
+def add_course(request):
+    if request.method == 'POST':
+        print("success")
     return render(request,'RecQuiz/add_course.html')
 
+        
 def course(request,course_name_slug):
     context_dict = {}
     try:
@@ -37,6 +54,7 @@ def course(request,course_name_slug):
         context_dict['course'] = course
         context_dict['lecutres'] = lectures
     return render(request,'RecQuiz/course.html',context = context_dict)
+
 def register(request):
     return HttpResponse("This is register page.")
    

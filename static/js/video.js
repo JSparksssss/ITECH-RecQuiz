@@ -51,6 +51,7 @@ function updatePlayButton() {
   }
 }
 
+RestAPI
 // formatTime takes a time length in seconds and returns the time in
 // minutes and seconds
 function formatTime(timeInSeconds) {

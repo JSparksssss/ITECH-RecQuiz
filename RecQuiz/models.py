@@ -22,7 +22,7 @@ class Course(models.Model):
     slug = models.SlugField(unique=True)
     def save(self, *args, **kwargs):
         self.slug = slugify(self.course_name)
-        super(User,self).save(*args, **kwargs)
+        super(Course,self).save(*args, **kwargs)
 
 
 class Lecture(models.Model):

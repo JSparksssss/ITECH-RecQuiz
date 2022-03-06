@@ -2,6 +2,8 @@
 
  var video = videojs('my_video');
 
+
+ 
  var questions = [{
     question: "What is your major?",
     choices: ['Internet Technology','Computing Science','Data Science','Software Development'],
@@ -38,6 +40,7 @@
 
        {time: 100, text:questions[0]},
        {time: 150, text:questions[1]},
+       
    ]
  });
 
