@@ -19,18 +19,20 @@ class Course(models.Model):
 
 class Lecture(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    url = models.CharField(max_length = 128,default="www.baidu.com")
     lec_id = models.IntegerField(default=0, unique = True)
     lec_name = models.CharField(max_length=128)
-    length = models.IntegerField(default=0)
+    length = models.IntegerField(default=0) 
     content = models.CharField(max_length=128)
-    time = models.IntegerField(default=0)
     
 class Quiz(models.Model):
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
     quiz_id = models.IntegerField(default=0, unique=True)
-    quiz_name = models.CharField(max_length=128)
     question = models.CharField(max_length=128)
-    answer = models.CharField(max_length=128)
+    answer1 = models.CharField(max_length=128)
+    answer2 = models.CharField(max_length=128)
+    answer3 = models.CharField(max_length=128)
+    answer4 = models.CharField(max_length=128)
     correct_answer = models.CharField(max_length=128)
     lecture_time = models.IntegerField(default = 0)
 

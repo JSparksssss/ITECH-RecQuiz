@@ -5,11 +5,13 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ('user_id','psw','email_id','first_name','last_name','gender','phone_number')
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('course_id','coordinator','course_name')
-
-
+class LectureAdmin(admin.ModelAdmin):
+    list_display = ('course','url','lec_id','lec_name','length','content')
+class QuizAdmin(admin.ModelAdmin):
+    list_display = ('lecture','quiz_id','question','answer1','answer2','answer3','answer4','correct_answer','lecture_time')
 
 admin.site.register(User,UserAdmin)
 admin.site.register(Course,CourseAdmin)
-admin.site.register(Lecture)
-admin.site.register(Quiz)
+admin.site.register(Lecture,LectureAdmin)
+admin.site.register(Quiz,QuizAdmin)
 # Register your models here.
