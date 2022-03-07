@@ -2,39 +2,73 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Course
+    {% if course %}
+      {{course.course_name}}
+    {% else %}
+      Course
+    {% endif %}
 {% endblock %}
 
 {% block body_block %}
+<main id="main">
 
-  <h1>Course Display</h1>
-
-  <!--Initialize hidden quiz box-->
-  <div id="quiz-box" style="visibility: hidden;">
-    <div id='quiz'></div>
-    <div class='button' id='next'><a href='#'>Next</a></div>
-    <div class='button' id='prev'><a href='#'>Prev</a></div>
-    <div class='button' id='start'> <a href='#'>Start Over</a></div>
-  </div>
-
-  <!--Video Plugin-->
-  <video id="my_video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="268" 
-  data-setup='{ "asdf": true }'>
-    <source src="https://itech.blob.core.windows.net/asset-3bb06c3b-2f32-46bc-9e40-a3526c84e51d/CSF-Lecture1.mp4?sp=r&st=2022-03-03T13:35:59Z&se=2022-05-30T20:35:59Z&sv=2020-08-04&sr=b&sig=CVXNwA10L0D%2FvzV8uo%2Fjy0eyxZ9Vq8KbQymhOGFnHZk%3D" type='video/mp4'>
-    <!-- <source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'> -->
-  </video>
-
-  <!--Lecture Plugin-->
-  <div>
-    <label class="selectgroup-item">
-      <input type="checkbox" name="value" value="HTML" class="selectgroup-input" checked />
-      <span class="selectgroup-button">Lecture 1</span>
-    </label>
-    <label class="selectgroup-item">
-      <input type="checkbox" name="value" value="HTML" class="selectgroup-input" />
-      <span class="selectgroup-button">Lecture 2</span>
-    </label>
-  </div>
+  <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <h2>{{course.course_name}}</h2>
+        <p>Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium. </p> 
+      </div>
+    </div><!-- End Breadcrumbs -->
   
-  <script src="{% static 'js/marker-quiz.js' %}"></script>
+  <div class="container" data-aos="fade-up">
+
+    <!--Initialize hidden quiz box-->
+    <div id="quiz-box" style="visibility: hidden;">
+      <div id='quiz'></div>
+      <div class='button' id='next'><a href='#'>Next</a></div>
+      <div class='button' id='prev'><a href='#'>Prev</a></div>
+      <div class='button' id='start'> <a href='#'>Start Over</a></div>
+    </div>
+
+    <!--Video Plugin-->
+    <div style="display: flex;">
+      <video id="my_video" class="video-js vjs-default-skin" controls preload="auto" width="800" height="500" 
+    data-setup='{ "asdf": true }'>
+      <source src="https://itech.blob.core.windows.net/asset-3bb06c3b-2f32-46bc-9e40-a3526c84e51d/CSF-Lecture1.mp4?sp=r&st=2022-03-03T13:35:59Z&se=2022-05-30T20:35:59Z&sv=2020-08-04&sr=b&sig=CVXNwA10L0D%2FvzV8uo%2Fjy0eyxZ9Vq8KbQymhOGFnHZk%3D" type='video/mp4'>
+      <!-- <source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'> -->
+      </video>
+      <!--Quiz Plugin-->
+      <div class="col-lg-4" style="margin-left: 10px;">
+        {% if quizs %}
+        <div class="list-group">
+          {% for quiz in quizs %}
+          <a class="list-group-item list-group-item-action" href="#list-home" data-bs-toggle="list">{{quiz.quiz_id}}</a>
+          {% endfor %}
+        
+        </div>
+        {% else %}
+        <p>This lecture has no quiz.</p>
+        {% endif %}
+      </div>
+    </div>
+    
+
+    
+   
+    <!--Lecture Plugin-->
+    <div style="margin-top: 10px;">
+      <h1>Lecture List</h1>
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul class="nav nav-pills">
+          <li class="nav-item"><a class="nav-link" href="#">Lecture 1</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Lecture 2</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Lecture 3</a></li>
+        </ul>
+      </nav>
+      
+    </div>
+  </div>
+
+</main>
+  <script src="{% static 'assets/js/marker-quiz.js' %}"></script>
   {% endblock %}
