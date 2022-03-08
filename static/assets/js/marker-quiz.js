@@ -38,8 +38,8 @@
    markers: [
        //重构一下
 
-       {time: 100, text:questions[0]},
-       {time: 150, text:questions[1]},
+       {time: 5, text:questions[0]},
+       {time: 3, text:questions[1]},
        
    ]
  });
