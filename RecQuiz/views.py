@@ -10,19 +10,19 @@ from datetime import datetime
 from difflib import context_diff
 from RecQuiz.models import Course, Lecture,Quiz,User
 # Create your views here.
-def login(request):
+def index(request):
     #这是一个做判断的页面
     #假设用户已经登陆网页了，那么重定向到myCourse页面；如果用户没有登陆，那么重定向到login界面
     # request.session.set_test_cookie()
     # visitor_cookie_handler(request)
-    print(request.COOKIES.get('is_login'))
-    status = request.COOKIES.get('is_login')  # 收到浏览器的再次请求,判断浏览器携带的cookie是不是登录成功的时候响应的 cookie
-    if not status:
-        return redirect(reverse('RecQuiz:login'))
+    # print(request.COOKIES.get('is_login'))
+    # status = request.COOKIES.get('is_login')  # 收到浏览器的再次请求,判断浏览器携带的cookie是不是登录成功的时候响应的 cookie
+    # if not status:
+    #     return redirect(reverse('RecQuiz:login'))
     return render(request,'RecQuiz/index.html')
 
-def index(request):
-    return render(request,'RecQuiz/index.html')
+# def index(request):
+#     return render(request,'RecQuiz/index.html')
 
 def my_course(request):
     context_dict = {}
@@ -72,7 +72,6 @@ def course(request,course_name_slug):
     return render(request,'RecQuiz/course.html',context = context_dict)
 
 def register(request):
-<<<<<<< HEAD
     # A boolean value for telling the template
     # whether the registration was successful.
     # Set to False initially. Code changes value to
@@ -228,7 +227,6 @@ def visitor_cookie_handler(request):
         request.session['last_visit'] = last_visit_cookie
 
     request.session['visits'] = visits
-=======
     return HttpResponse("This is register page.")
    
 def about(request):
@@ -245,6 +243,5 @@ def trainers(request):
     
 def events(request):
     return render(request,'RecQuiz/events.html')
->>>>>>> main
 #TBC...
 #Quiz Report, and other functionalities
