@@ -55,7 +55,11 @@
         <ul>
           <li><a href="{% url 'RecQuiz:index' %}">Home</a></li>
           <li><a href="{% url 'RecQuiz:about' %}">About</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'RecQuiz:my_course' %}">MyCourse</a></li>
+          {% else %}
           <li><a href="{% url 'RecQuiz:courses'%}">Courses</a></li>
+          {% endif %}
           <li><a href="{% url 'RecQuiz:trainers'%}">Trainers</a></li>
           <li><a href="{% url 'RecQuiz:events' %}">Events</a></li>
           <li><a href="{% url 'RecQuiz:pricing' %}">Pricing</a></li>
