@@ -1,33 +1,16 @@
-<!DOCTYPE html>
+{% extends 'RecQuiz/base.html' %}
 {% load staticfiles %}
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Register here</title>
-<!-- Google Font: Source Sans Pro -->
-<link rel="stylesheet" href="{% static 'css/googleapi.css' %}">
-<!-- Font Awesome Icons -->
-<link rel="stylesheet" href="{% static 'css/all.min.css' %}">
-<!-- Theme style -->
-<link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
-<style>
-.errorlist
-{
-	color:red;
-}
-</style>
-</head>
-<body class="hold-transition register-page">
+{% block title_block %}
+	Login
+{% endblock %}
+{% block body_block %}
+
+<div class="hold-transition register-page">
 {% if registered %}
         RecQuiz says: <strong>thank you for registering!</strong>
         <a href="{% url 'RecQuiz:login' %}">Return to the homepage.</a><br />
 {% else %}
 	<div class="register-box">
-		<div class="register-logo">
-			<a href="welcome.jsp"><b>Rec Quiz</b></a>
-		</div>
-
 		<div class="card">
 			<div class="card-body register-card-body" style="color:gray;">
 				<p class="login-box-msg">Customer Registration</p>
@@ -142,16 +125,6 @@
 		<!-- /.card -->
 	</div>
 	<!-- /.register-box -->
-
-	<!-- REQUIRED SCRIPTS -->
-
-	<!-- jQuery -->
-	<script src="{% static 'js/jquery.min.js' %}"></script>
-	<!-- Bootstrap 4 -->
-	<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-	<!-- AdminLTE App -->
-	<script src="{% static 'js/adminlte.min.js' %}"></script>
-	<!-- AdminLTE for demo purposes -->
 {% endif %}
-</body>
-</html>
+</div>
+{% endblock %}

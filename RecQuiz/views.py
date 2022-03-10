@@ -51,8 +51,17 @@ def courses(request):
     return render(request,'RecQuiz/courses.html',context = context_dict)
 
 def add_course(request):
-    if request.method == 'POST':
-        print("success")
+    # if request.method == 'POST':
+    #     print("success")
+    context_dict = {}
+    # user_id = request.COOKIES.get('user_id')
+    try:
+        # user = User.objects.get(user_id=user_id)
+        # courses = Course.objects.filter(user)
+        courses = Course.objects.all()
+        context_dict['courses'] = courses
+    except Course.DoesNotExist:
+        context_dict['course'] = None
     return render(request,'RecQuiz/add_course.html')
 
         
@@ -72,10 +81,6 @@ def course(request,course_name_slug):
     return render(request,'RecQuiz/course.html',context = context_dict)
 
 def register(request):
-    # A boolean value for telling the template
-    # whether the registration was successful.
-    # Set to False initially. Code changes value to
-    # True when registration succeeds.
     registered = False
     user_form_errors = ''
     profile_form_errors = ''
@@ -180,6 +185,7 @@ def user_login(request):
                 login(request, user)
                 rep = redirect(reverse('RecQuiz:index'))
                 rep.set_cookie("is_login", True)
+                rep.set_cookie("user_name",)
                 return rep
             else:
                 # An inactive account was used - no logging in!
