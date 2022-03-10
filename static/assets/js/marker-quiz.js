@@ -2,8 +2,8 @@
 
  var video = videojs('my_video');
 
-
- 
+ var jsonData = JSON.parse(document.querySelector('#jsonData').getAttribute('data-json'));
+ console.log(jsonData);
  var questions = [{
     question: "What is your major?",
     choices: ['Internet Technology','Computing Science','Data Science','Software Development'],

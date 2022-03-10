@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block sidebar_block %}
+  <div style="display: none" id='jsonData' data-json={{quizs}}></div>
 {% endblock %}
 {% block body_block %}
 <main id="main">
@@ -63,9 +64,16 @@
       <h1>Lecture List</h1>
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul class="nav nav-pills">
-          <li class="nav-item"><a class="nav-link" href="#">Lecture 1</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Lecture 2</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Lecture 3</a></li>
+          {% if lectures %}
+            {% for lecture in lectures %}
+              {% if lecture == current_lecture %}
+                <li class="nav-item"><a class="active nav-link" href="{% url 'RecQuiz:lecture' course_name_slug=course.slug lec_id=lecture.lec_id %}">Lecture {{lecture.lec_id}}</a></li>
+              {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'RecQuiz:lecture' course.slug lecture.lec_id %}">Lecture {{lecture.lec_id}}</a></li>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+          {% endif %}
         </ul>
       </nav>
       
