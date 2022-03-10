@@ -2,9 +2,9 @@ from django.db import models
 from django.template.defaultfilters import slugify
 
 class User(models.Model):
-    user_id = models.IntegerField(default=0, unique=True)
+    user_id = models.IntegerField(default=0)
     psw = models.CharField(max_length=128)
-    email_id = models.CharField(max_length=128, unique=True)
+    email_id = models.CharField(max_length=128)
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
     gender = models.CharField(max_length=128)
@@ -16,9 +16,9 @@ class User(models.Model):
 
 class Course(models.Model):
     user = models.ManyToManyField(User)
-    course_id = models.IntegerField(default=0, unique=True)
+    course_id = models.IntegerField(default=0)
     coordinator = models.CharField(max_length=128)
-    course_name = models.CharField(max_length=128, unique=True)
+    course_name = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
     def save(self, *args, **kwargs):
         self.slug = slugify(self.course_name)
@@ -27,14 +27,14 @@ class Course(models.Model):
 class Lecture(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     url = models.CharField(max_length = 128,default="www.baidu.com")
-    lec_id = models.IntegerField(default=0, unique = True)
+    lec_id = models.IntegerField(default=0)
     lec_name = models.CharField(max_length=128)
     length = models.IntegerField(default=0) 
     content = models.CharField(max_length=128)
     
 class Quiz(models.Model):
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
-    quiz_id = models.IntegerField(default=0, unique=True)
+    quiz_id = models.IntegerField(default=0)
     question = models.CharField(max_length=128)
     answer1 = models.CharField(max_length=128)
     answer2 = models.CharField(max_length=128)
