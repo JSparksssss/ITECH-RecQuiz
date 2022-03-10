@@ -7,9 +7,10 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
-
+from difflib import context_diff
+from RecQuiz.models import Course, Lecture,Quiz,User
 # Create your views here.
-def index(request):
+def login(request):
     #这是一个做判断的页面
     #假设用户已经登陆网页了，那么重定向到myCourse页面；如果用户没有登陆，那么重定向到login界面
     # request.session.set_test_cookie()
@@ -18,19 +19,60 @@ def index(request):
     status = request.COOKIES.get('is_login')  # 收到浏览器的再次请求,判断浏览器携带的cookie是不是登录成功的时候响应的 cookie
     if not status:
         return redirect(reverse('RecQuiz:login'))
-    return render(request,'RecQuiz/test.html')
+    return render(request,'RecQuiz/index.html')
 
+def index(request):
+    return render(request,'RecQuiz/index.html')
 
 def my_course(request):
-    return HttpResponse("This is myCourse page.")
+    context_dict = {}
+    try:
+        # user = User.objects.get(slug=user_id_slug)
+        # course = Course.objects.filter(User=user)
+        courses = Course.objects.all()
+        context_dict['courses'] = courses
+    except Course.DoesNotExist:
+        context_dict['course'] = None
+    
+    return render(request, 'RecQuiz/my_course.html', context = context_dict)
 
-def add_new_course(request):
-    return HttpResponse("This is add new course page.")
 
-def course(request):
-    return HttpResponse("This is course page.")
+def courses(request):
+    #应该能够筛选出用户未注册的course
+    context_dict = {}
+    try:
+        # user = User.objects.get(slug=user_id_slug)
+        # course = Course.objects.filter(User=user)
+        courses = Course.objects.all()
+        context_dict['courses'] = courses
+    except Course.DoesNotExist:
+        context_dict['course'] = None
+    
+    return render(request,'RecQuiz/courses.html',context = context_dict)
+
+def add_course(request):
+    if request.method == 'POST':
+        print("success")
+    return render(request,'RecQuiz/add_course.html')
+
+        
+def course(request,course_name_slug):
+    context_dict = {}
+    try:
+        course = Course.objects.get(slug = course_name_slug)
+        lectures = Lecture.objects.filter(course = course)
+        quizs = Quiz.objects.all()
+        context_dict['course'] = course
+        context_dict['lecutres'] = lectures
+        context_dict['quizs'] = quizs
+    except:
+        context_dict['course'] = None
+        context_dict['lecutres'] = None
+        context_dict['quizs'] = None
+    return render(request,'RecQuiz/course.html',context = context_dict)
 
 def register(request):
+<<<<<<< HEAD
     # A boolean value for telling the template
     # whether the registration was successful.
     # Set to False initially. Code changes value to
@@ -186,5 +228,23 @@ def visitor_cookie_handler(request):
         request.session['last_visit'] = last_visit_cookie
 
     request.session['visits'] = visits
+=======
+    return HttpResponse("This is register page.")
+   
+def about(request):
+    return render(request,'RecQuiz/about.html')
+
+def contact(request):
+    return render(request,'RecQuiz/contact.html')
+
+def pricing(request):
+    return render(request,'RecQuiz/pricing.html')
+
+def trainers(request):
+    return render(request,'RecQuiz/trainers.html')
+    
+def events(request):
+    return render(request,'RecQuiz/events.html')
+>>>>>>> main
 #TBC...
 #Quiz Report, and other functionalities
