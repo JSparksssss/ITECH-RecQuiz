@@ -15,15 +15,15 @@
         <p>Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium. </p> 
       </div>
     </div><!-- End Breadcrumbs -->
-    <div>
-
-    </div>
 
     <!-- ======= Courses Section ======= -->
     {%if courses%}
     <section id="courses" class="courses">
       <div class="container" data-aos="fade-up">
-
+        <div>
+            <a href="{% url 'RecQuiz:add_course' %}">Add new Course</a>
+        </div>
+        
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
             {% for course in courses %}
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch" style="margin-bottom: 2%">

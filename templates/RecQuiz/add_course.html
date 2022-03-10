@@ -32,23 +32,18 @@
                   <h4>Web Development</h4>
                   <p class="price">$99</p>
                 </div>
-
-                <h3><a href="{% url 'RecQuiz:course' course.slug %}">{{course.course_name}}</a></h3>
-                <p>This is the course intro.</p>
-                <div class="trainer d-flex justify-content-between align-items-center">
-                  <div class="trainer-profile d-flex align-items-center">
-                    <!-- <img src="{% static 'assets/img/trainers/trainer-1.jpg' %}" class="img-fluid" alt=""> -->
-                    <span>{{course.coordinator}}</span>
-                  </div>
-                  <div class="trainer-rank d-flex align-items-center">
-                    <i class="bx bx-user"></i>&nbsp;50
-                    &nbsp;&nbsp;
-                    <i class="bx bx-heart"></i>&nbsp;65
+                <h3><a>{{course.course_name}}</a></h3>
+                <p>{{course.coordinator}}</p>               
+                  <div class="trainer d-flex justify-content-between align-items-center">
+                    <div class="trainer-profile d-flex align-items-center">
+                      <span><a href="{% url 'RecQuiz:course' course.slug %}">START LEARNING</a></span>    
+                      <span><a href="#">add to myCourse</a></span>               
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div> <!-- End Course Item-->
+ <!-- End Course Item-->
             {% endfor %}
     {% else %}
     <h1>There are not new courses.</h1>

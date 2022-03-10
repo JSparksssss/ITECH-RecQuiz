@@ -50,18 +50,25 @@ def courses(request):
     return render(request,'RecQuiz/courses.html',context = context_dict)
 
 def add_course(request):
+    #这里需要实现一个表单request修改数据库的操作
+    #用户点击Add To MyCourse可以在Course的外键新增添加一个User的链接
+
     # if request.method == 'POST':
     #     print("success")
     context_dict = {}
     # user_id = request.COOKIES.get('user_id')
     try:
+        # 然后这里的逻辑是筛选用户未选择的课程
         # user = User.objects.get(user_id=user_id)
         # courses = Course.objects.filter(user)
-        courses = Course.objects.all()
+
+        #这只是为了界面显示而做的操作
+        courses = Course.objects.all() 
         context_dict['courses'] = courses
+        print("add_course view load data success.")
     except Course.DoesNotExist:
-        context_dict['course'] = None
-    return render(request,'RecQuiz/add_course.html')
+        context_dict['courses'] = None
+    return render(request,'RecQuiz/add_course.html',context = context_dict)
 
         
 def course(request,course_name_slug):
