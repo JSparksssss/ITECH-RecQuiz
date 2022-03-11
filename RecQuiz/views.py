@@ -19,7 +19,9 @@ def index(request):
     # status = request.COOKIES.get('is_login')  # 收到浏览器的再次请求,判断浏览器携带的cookie是不是登录成功的时候响应的 cookie
     # if not status:
     #     return redirect(reverse('RecQuiz:login'))
-    return render(request,'RecQuiz/index.html')
+    is_login=request.COOKIES.get('is_login')
+    username=request.COOKIES.get('username')
+    return render(request,'RecQuiz/index.html', context = {'is_login': is_login, 'username': username})
 
 # def index(request):
 #     return render(request,'RecQuiz/index.html')
@@ -113,7 +115,11 @@ def register(request):
             user.email = email
             user.first_name = first_name
             user.last_name = last_name
+            user.phone_number = phone
+            user.gender = gender
+            print(user.id)
             user.save()
+            print(user.id)
             print (user)
 
             # Now sort out the UserProfile instance.
@@ -130,6 +136,8 @@ def register(request):
             # profile.set_phone(profile.phone)
             profile.phone = phone
             profile.gender = gender
+            print(user.id)
+            profile.slug = user.id
 
             # Now we save the UserProfile model instance.
             profile.save()
@@ -185,7 +193,7 @@ def user_login(request):
                 login(request, user)
                 rep = redirect(reverse('RecQuiz:index'))
                 rep.set_cookie("is_login", True)
-                rep.set_cookie("user_name",)
+                rep.set_cookie("user_name", username)
                 return rep
             else:
                 # An inactive account was used - no logging in!
@@ -194,7 +202,7 @@ def user_login(request):
                 return render(request, 'RecQuiz/login.html', context={'login_form_errors': login_form_errors, })
         else:
             # Bad login details were provided. So we can't log the user in.
-            print(f"Invalid login details: {username}, {password}")
+            print("Invalid login details: {username}, {password}")
             login_form_errors = "Invalid login details supplied."
             return render(request, 'RecQuiz/login.html', context={'login_form_errors': login_form_errors, })
             # return HttpResponse("Invalid login details supplied.")
@@ -213,7 +221,8 @@ def user_logout(request):
     logout(request)
     rep = redirect(reverse('RecQuiz:login'))
     rep.delete_cookie("is_login")
-    # Take the user back to the homepage.
+    rep.delete_cookie("username")
+    # Take the user back to the login page.
     return rep
 
 def get_server_side_cookie(request, cookie, default_val=None):

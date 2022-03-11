@@ -14,7 +14,7 @@ class LectureAdmin(admin.ModelAdmin):
 class QuizAdmin(admin.ModelAdmin):
     list_display = ('lecture','quiz_id','question','answer1','answer2','answer3','answer4','correct_answer','lecture_time')
 
-admin.site.register(User,UserAdmin)
+# admin.site.register(User,UserAdmin)
 admin.site.register(Course,CourseAdmin)
 admin.site.register(Lecture,LectureAdmin)
 admin.site.register(Quiz,QuizAdmin)
