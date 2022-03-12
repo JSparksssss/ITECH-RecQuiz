@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
 from difflib import context_diff
-from RecQuiz.models import Course, Lecture,Quiz,User
+from RecQuiz.models import Course, Lecture,Quiz,User,UserProfile
+from django.db import connection
 # Create your views here.
 def index(request):
     #这是一个做判断的页面
@@ -45,7 +46,20 @@ def courses(request):
     try:
         # user = User.objects.get(slug=user_id_slug)
         # course = Course.objects.filter(User=user)
-        courses = Course.objects.all()
+        user_slug = request.COOKIES.get('slug')
+        sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_slug + "\'"
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        results = cursor.fetchall()#查询所有
+        courses = []
+        print(results)
+        for course_id in results:
+            print(course_id[0])
+            # print(Course.objects.filter(id=course_id[0]))
+            print(Course.objects.get(id=course_id[0]))
+            courses.append(Course.objects.get(id=course_id[0]))
+        # courses = Course.objects.all()
+        print(courses)
         context_dict['courses'] = courses
     except Course.DoesNotExist:
         context_dict['course'] = None
@@ -117,10 +131,7 @@ def register(request):
             user.last_name = last_name
             user.phone_number = phone
             user.gender = gender
-            print(user.id)
             user.save()
-            print(user.id)
-            print (user)
 
             # Now sort out the UserProfile instance.
             # Since we need to set the user attribute ourselves,
@@ -136,7 +147,6 @@ def register(request):
             # profile.set_phone(profile.phone)
             profile.phone = phone
             profile.gender = gender
-            print(user.id)
             profile.slug = user.id
 
             # Now we save the UserProfile model instance.
@@ -193,7 +203,11 @@ def user_login(request):
                 login(request, user)
                 rep = redirect(reverse('RecQuiz:index'))
                 rep.set_cookie("is_login", True)
-                rep.set_cookie("user_name", username)
+                id = User.objects.filter(username=username).values("id")
+                print(id)
+                user_profile = UserProfile.objects.filter(user_id=id[0].get('id')).values("slug")
+                print(user_profile)
+                rep.set_cookie("slug", user_profile[0].get('slug'))
                 return rep
             else:
                 # An inactive account was used - no logging in!
