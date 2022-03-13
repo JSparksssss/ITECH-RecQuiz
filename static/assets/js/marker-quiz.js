@@ -1,19 +1,27 @@
  // initialize video.js
 
+ $("#exampleModalCenter").modal({backdrop:'static',keyboard:false})
+
  var video = videojs('my_video');
-
-
  
- var questions = [{
-    question: "What is your major?",
-    choices: ['Internet Technology','Computing Science','Data Science','Software Development'],
-    correctAnswer: 'Internet Technology'
-  }, {
-    question: "What is your major?",
-    choices: ['Internet Technology','Computing Science','Data Science','Software Development'],
-    correctAnswer: 'Computing Science'
-  }];
-  
+ var jsonData = JSON.parse(document.querySelector('#jsonData').getAttribute('data-json'));
+ 
+ var questions = []
+ var time = []
+ var video_markers = []
+ console.log(Object.keys(jsonData).length)
+ for(i=0;i<jsonData.length;i++){
+    let quiz = {
+      'quesition':jsonData[i]['question'],
+      'choices':jsonData[i]['choices'],
+      'correctAnswer':jsonData[i]['correctAnswer']
+    }
+    let time = jsonData[i]['time']
+    let element = {time:time,text:quiz['quesition']}
+    video_markers.push(element)
+    // console.log(quiz,time)
+ }
+
   var questionCounter = 0; //Tracks question number
   var selections = []; //Array containing user choices
   var quiz = $('#quiz'); //Quiz div object
@@ -35,13 +43,7 @@
      let quiz = marker.text
     //  alert(quiz['question'])
    },
-   markers: [
-       //重构一下
-
-       {time: 5, text:questions[0]},
-       {time: 3, text:questions[1]},
-       
-   ]
+   markers: this.video_markers
  });
 
   // Click handler for the 'next' button
@@ -192,3 +194,4 @@
                  questions.length + ' right!!!');
     return score;
   }
+

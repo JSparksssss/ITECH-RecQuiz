@@ -72,28 +72,37 @@ def add_course(request):
 
         
 def course(request,course_name_slug):
-    print(course_name_slug)
+    if request.method == 'POST':
+
+        print("success")
+    
+    # print(course_name_slug)
     context_dict = {}
     try:
-        course = Course.objects.get(slug = course_name_slug)
-        lectures = Lecture.objects.filter(course = course)
-        lecture = lectures.order_by('lec_id').first() 
-        print("initial lecture id:",lecture.lec_id)    
-        quizs = Quiz.objects.filter(lecture = lecture)
-        print(quizs.first().quiz_id)
-        context_dict['course'] = course
-        context_dict['lectures'] = lectures
-        context_dict['current_lecture'] = lecture
+        # course = Course.objects.get(slug = course_name_slug)
+        # lectures = Lecture.objects.filter(course = course)
+        # lecture = lectures.order_by('lec_id').first() 
+        # # print("initial lecture id:",lecture.lec_id)    
+        # quizs = Quiz.objects.filter(lecture = lecture)
+        # context_dict['course'] = course
+        # context_dict['lectures'] = lectures
+        # context_dict['current_lecture'] = lecture
+        # context_dict['quizs'] = quizs
+        # context_dict['json_quizs'] = get_quiz_json(request,quizs)
+        # print("json-quizs:", context_dict['json_quizs'])
+        quizs = Quiz.objects.all()
         context_dict['quizs'] = quizs
         context_dict['json_quizs'] = get_quiz_json(request,quizs)
-        return render(request,'RecQuiz/course.html',context = context_dict)
+        print("json-quizs:", context_dict['json_quizs'])
+        print("TESTING")
     except Course.DoesNotExist:
         print("Error")
         context_dict['course'] = None
         context_dict['lectures'] = None
         context_dict['current_lecture'] = None
-        context_dict['quizs'] = None  
-    return render(request,'RecQuiz/course.html',context = context_dict)
+        context_dict['quizs'] = None 
+
+    return render(request,'RecQuiz/quiz.html',context = context_dict)
 
 def lecture(request,course_name_slug,lec_id):
     context_dict = {}
@@ -277,7 +286,8 @@ def get_quiz_json(request,quizs):
             {
                 'question':quiz.question,
                 'choices':[quiz.answer1,quiz.answer2,quiz.answer3,quiz.answer4],
-                'correctAnswer':quiz.correct_answer
+                'correctAnswer':quiz.correct_answer,
+                'time':quiz.lecture_time
             }
             for quiz in quizs
         ]

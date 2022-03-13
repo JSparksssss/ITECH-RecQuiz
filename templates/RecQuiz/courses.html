@@ -25,10 +25,11 @@
     {%if courses%}
     <section id="courses" class="courses">
       <div class="container" data-aos="fade-up">
+
         <div>
             <a href="{% url 'RecQuiz:add_course' %}">Add new Course</a>
         </div>
-        
+
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
             {% for course in courses %}
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch" style="margin-bottom: 2%">
@@ -44,7 +45,8 @@
                 <p>{{course.coordinator}}</p>
                 <div class="trainer d-flex justify-content-between align-items-center">
                   <div class="trainer-profile d-flex align-items-center">
-                    <span><a href="{% url 'RecQuiz:course' course.slug %}">START LEARNING</a></span>                   
+                    <span><a href="{% url 'RecQuiz:course' course.slug %}">START LEARNING</a></span>   
+                    <span><a href="{% url 'RecQuiz:course' course.slug %}">DELETE COURSE</a></span>                 
                   </div>
                 </div>
               </div>
