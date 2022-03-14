@@ -47,18 +47,22 @@ def courses(request):
         # user = User.objects.get(slug=user_id_slug)
         # course = Course.objects.filter(User=user)
         user_slug = request.COOKIES.get('slug')
-        sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_slug + "\'"
-        cursor = connection.cursor()
-        cursor.execute(sql)
-        results = cursor.fetchall()#查询所有
-        courses = []
-        print(results)
-        for course_id in results:
-            print(course_id[0])
-            # print(Course.objects.filter(id=course_id[0]))
-            print(Course.objects.get(id=course_id[0]))
-            courses.append(Course.objects.get(id=course_id[0]))
-        # courses = Course.objects.all()
+        print(user_slug)
+        print('222222')
+        if user_slug:
+            print("11111")
+            sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_slug + "\'"
+            cursor = connection.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            courses = []
+            print(results)
+            for course_id in results:
+                print(course_id[0])
+                print(Course.objects.get(id=course_id[0]))
+                courses.append(Course.objects.get(id=course_id[0]))
+        else:
+            courses = Course.objects.all()
         print(courses)
         context_dict['courses'] = courses
     except Course.DoesNotExist:
@@ -236,6 +240,7 @@ def user_logout(request):
     rep = redirect(reverse('RecQuiz:login'))
     rep.delete_cookie("is_login")
     rep.delete_cookie("username")
+    rep.delete_cookie("slug")
     # Take the user back to the login page.
     return rep
 
