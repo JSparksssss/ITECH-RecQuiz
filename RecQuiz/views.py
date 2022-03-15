@@ -1,11 +1,4 @@
 import json
-<<<<<<< HEAD
-from difflib import context_diff
-from django.http import HttpResponse
-from django.shortcuts import render,redirect
-from django.urls import reverse
-from RecQuiz.models import Course, Lecture,Quiz,User
-=======
 from django.shortcuts import render,redirect
 from RecQuiz.forms import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login,logout
@@ -16,7 +9,6 @@ from datetime import datetime
 from difflib import context_diff
 from RecQuiz.models import Course, Lecture,Quiz,User,UserProfile
 from django.db import connection
->>>>>>> origin/main
 # Create your views here.
 def index(request):
     #这是一个做判断的页面
@@ -34,20 +26,6 @@ def index(request):
 # def index(request):
 #     return render(request,'RecQuiz/index.html')
 
-<<<<<<< HEAD
-# #这个view层可以放到下方的courses，用if user.islogin
-# def my_course(request):
-#     context_dict = {}
-#     try:
-#         # user = User.objects.get(slug=user_id_slug)
-#         # course = Course.objects.filter(User=user)
-#         courses = Course.objects.all()
-#         context_dict['courses'] = courses
-#     except Course.DoesNotExist:
-#         context_dict['course'] = None
-    
-#     return render(request, 'RecQuiz/my_course.html', context = context_dict)
-=======
 def courses(request):
     context_dict = {}
     try:
@@ -59,7 +37,6 @@ def courses(request):
         context_dict['course'] = None
     
     return render(request, 'RecQuiz/courses.html', context = context_dict)
->>>>>>> origin/main
 
 
 def my_course(request):
@@ -149,31 +126,6 @@ def lecture(request,course_name_slug,lec_id):
     try:
         course = Course.objects.get(slug = course_name_slug)
         lectures = Lecture.objects.filter(course = course)
-<<<<<<< HEAD
-        lecture = lectures.order_by('lec_id').first() 
-        print("initial lecture id:",lecture.lec_id)    
-        quizs = Quiz.objects.filter(lecture = lecture)
-        context_dict['course'] = course
-        context_dict['lectures'] = lectures
-        context_dict['current_lecture'] = lecture
-        context_dict['quizs'] = quizs
-        context_dict['json_quizs'] = get_quiz_json(request,quizs)
-        return render(request,'RecQuiz/course.html',context = context_dict)
-    except:
-        context_dict['course'] = None
-        context_dict['lectures'] = None
-        context_dict['current_lecture'] = None
-        context_dict['quizs'] = None  
-
-    return render(request,'RecQuiz/course.html',context = context_dict)
-
-def lecture(request,course_name_slug,lec_id):
-    context_dict = {}
-    try:
-        course = Course.objects.get(slug = course_name_slug)
-        lectures = Lecture.objects.filter(course = course)
-=======
->>>>>>> origin/main
         lecture = lectures.get(lec_id=lec_id) 
         print("current lecture id",lecture.lec_id)    
         quizs = Quiz.objects.filter(lecture = lecture)
@@ -188,10 +140,6 @@ def lecture(request,course_name_slug,lec_id):
         context_dict['lectures'] = None
         context_dict['current_lecture'] = None
         context_dict['quizs'] = None  
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
     return render(request,'RecQuiz/course.html',context = context_dict)
 
 def register(request):
