@@ -47,6 +47,7 @@ def courses(request):
         # user = User.objects.get(slug=user_id_slug)
         # course = Course.objects.filter(User=user)
         user_slug = request.COOKIES.get('slug')
+        is_login = request.COOKIES.get('is_login')
         print(user_slug)
         print('222222')
         if user_slug:
@@ -67,7 +68,10 @@ def courses(request):
         context_dict['courses'] = courses
     except Course.DoesNotExist:
         context_dict['course'] = None
-    
+    if is_login:
+        context_dict['is_login'] = True
+    else:
+        context_dict['is_login'] = False
     return render(request,'RecQuiz/courses.html',context = context_dict)
 
 def add_course(request):
