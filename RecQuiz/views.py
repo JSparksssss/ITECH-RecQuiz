@@ -7,9 +7,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from difflib import context_diff
-from RecQuiz.models import Course, Lecture,Quiz,User
-
-
+from RecQuiz.models import Course, Lecture,Quiz,User,UserProfile
+from django.db import connection
 # Create your views here.
 def index(request):
     #这是一个做判断的页面
@@ -20,12 +19,14 @@ def index(request):
     # status = request.COOKIES.get('is_login')  # 收到浏览器的再次请求,判断浏览器携带的cookie是不是登录成功的时候响应的 cookie
     # if not status:
     #     return redirect(reverse('RecQuiz:login'))
-    return render(request,'RecQuiz/index.html')
+    is_login=request.COOKIES.get('is_login')
+    username=request.COOKIES.get('username')
+    return render(request,'RecQuiz/index.html', context = {'is_login': is_login, 'username': username})
 
 # def index(request):
 #     return render(request,'RecQuiz/index.html')
 
-def my_course(request):
+def courses(request):
     context_dict = {}
     try:
         # user = User.objects.get(slug=user_id_slug)
@@ -35,19 +36,42 @@ def my_course(request):
     except Course.DoesNotExist:
         context_dict['course'] = None
     
-    return render(request, 'RecQuiz/my_course.html', context = context_dict)
+    return render(request, 'RecQuiz/courses.html', context = context_dict)
 
 
-def courses(request):
+def my_course(request):
     #显示所有的Course
     context_dict = {}
     try:
-        courses = Course.objects.all()
+        # user = User.objects.get(slug=user_id_slug)
+        # course = Course.objects.filter(User=user)
+        user_slug = request.COOKIES.get('slug')
+        is_login = request.COOKIES.get('is_login')
+        print(user_slug)
+        print('222222')
+        if user_slug:
+            print("11111")
+            sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_slug + "\'"
+            cursor = connection.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            courses = []
+            print(results)
+            for course_id in results:
+                print(course_id[0])
+                print(Course.objects.get(id=course_id[0]))
+                courses.append(Course.objects.get(id=course_id[0]))
+        else:
+            courses = Course.objects.all()
+        print(courses)
         context_dict['courses'] = courses
     except Course.DoesNotExist:
         context_dict['course'] = None
-    
-    return render(request,'RecQuiz/courses.html',context = context_dict)
+    if is_login:
+        context_dict['is_login'] = True
+    else:
+        context_dict['is_login'] = False
+    return render(request,'RecQuiz/my_course.html',context = context_dict)
 
 def add_course(request):
     #这里需要实现一个表单request修改数据库的操作
@@ -149,8 +173,9 @@ def register(request):
             user.email = email
             user.first_name = first_name
             user.last_name = last_name
+            user.phone_number = phone
+            user.gender = gender
             user.save()
-            print (user)
 
             # Now sort out the UserProfile instance.
             # Since we need to set the user attribute ourselves,
@@ -166,6 +191,7 @@ def register(request):
             # profile.set_phone(profile.phone)
             profile.phone = phone
             profile.gender = gender
+            profile.slug = user.id
 
             # Now we save the UserProfile model instance.
             profile.save()
@@ -221,7 +247,11 @@ def user_login(request):
                 login(request, user)
                 rep = redirect(reverse('RecQuiz:index'))
                 rep.set_cookie("is_login", True)
-                rep.set_cookie("user_name",)
+                id = User.objects.filter(username=username).values("id")
+                print(id)
+                user_profile = UserProfile.objects.filter(user_id=id[0].get('id')).values("slug")
+                print(user_profile)
+                rep.set_cookie("slug", user_profile[0].get('slug'))
                 return rep
             else:
                 # An inactive account was used - no logging in!
@@ -230,7 +260,7 @@ def user_login(request):
                 return render(request, 'RecQuiz/login.html', context={'login_form_errors': login_form_errors, })
         else:
             # Bad login details were provided. So we can't log the user in.
-            print(f"Invalid login details: {username}, {password}")
+            print("Invalid login details: {username}, {password}")
             login_form_errors = "Invalid login details supplied."
             return render(request, 'RecQuiz/login.html', context={'login_form_errors': login_form_errors, })
             # return HttpResponse("Invalid login details supplied.")
@@ -249,7 +279,9 @@ def user_logout(request):
     logout(request)
     rep = redirect(reverse('RecQuiz:login'))
     rep.delete_cookie("is_login")
-    # Take the user back to the homepage.
+    rep.delete_cookie("username")
+    rep.delete_cookie("slug")
+    # Take the user back to the login page.
     return rep
 
 def get_server_side_cookie(request, cookie, default_val=None):

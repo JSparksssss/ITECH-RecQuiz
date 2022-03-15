@@ -68,7 +68,6 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      <a href="{% url 'RecQuiz:login' %}" class="get-started-btn">Get Started</a>
 
     </div>
   </header><!-- End Header -->
@@ -172,5 +171,30 @@
     <script src="{% static 'js/adminlte.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript">
+        function getCookie(cname)
+        {
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0; i<ca.length; i++)
+          {
+            var c = ca[i].trim();
+            if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+          }
+          return "";
+        }
+        $(document).ready(function(){
+            var cookies = document.cookie;
+            var is_login = getCookie("is_login")
+            console.log(is_login)
+            if(is_login == "True"){
+                var logged = $('<a href="{% url 'RecQuiz:logout' %}" class="get-started-btn">Log Out</a>');
+                $("#navbar").after(logged);
+            }else{
+                var passenger = $('<a href="{% url 'RecQuiz:login' %}" class="get-started-btn">Get Started</a>');
+                $("#navbar").after(passenger);
+            }
+        });
+    </script>
 </body>
 </html>
