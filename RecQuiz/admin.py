@@ -1,4 +1,5 @@
 from django.contrib import admin
+from RecQuiz.models import UserProfile
 
 from RecQuiz.models import User, Course, Lecture, Quiz
 
@@ -13,8 +14,10 @@ class LectureAdmin(admin.ModelAdmin):
 class QuizAdmin(admin.ModelAdmin):
     list_display = ('lecture','quiz_id','question','answer1','answer2','answer3','answer4','correct_answer','lecture_time')
 
-admin.site.register(User,UserAdmin)
+# admin.site.register(User,UserAdmin)
 admin.site.register(Course,CourseAdmin)
 admin.site.register(Lecture,LectureAdmin)
 admin.site.register(Quiz,QuizAdmin)
 # Register your models here.
+
+admin.site.register(UserProfile)

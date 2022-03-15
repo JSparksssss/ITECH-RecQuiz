@@ -31,12 +31,13 @@
       <div class='button' id='prev'><a href='#'>Prev</a></div>
       <div class='button' id='start'> <a href='#'>Start Over</a></div>
     </div>
-
+    
     <!--Video Plugin-->
     <div style="display: flex;">
       <video id="my_video" class="video-js vjs-default-skin" controls preload="auto" width="800" height="500" 
     data-setup='{ "asdf": true }'>
-      <source src="https://drive.google.com/uc?export=view&id=1_RgKGmEL5Ro0-I98rT3itPZA_XxhyQLX" type='video/mp4'>
+    
+      <source src=" {{current_lecture.url}} " type='video/mp4'>
       <!-- <source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'> -->
       <!-- https://drive.google.com/uc?export=view&id=1_RgKGmEL5Ro0-I98rT3itPZA_XxhyQLX/  -->
     </video>
@@ -69,7 +70,11 @@
               {% if lecture == current_lecture %}
                 <li class="nav-item"><a class="active nav-link" href="{% url 'RecQuiz:lecture' course_name_slug=course.slug lec_id=lecture.lec_id %}">Lecture {{lecture.lec_id}}</a></li>
               {% else %}
+<<<<<<< HEAD
                 <li class="nav-item"><a class="nav-link" href="{% url 'RecQuiz:lecture' course.slug lecture.lec_id %}">Lecture {{lecture.lec_id}}</a></li>
+=======
+                <li class="nav-item"><a class="nav-link" href="{% url 'RecQuiz:lecture' course_name_slug=course.slug lec_id=lecture.lec_id  %}">Lecture {{lecture.lec_id}}</a></li>
+>>>>>>> origin/main
               {% endif %}
             {% endfor %}
           {% else %}

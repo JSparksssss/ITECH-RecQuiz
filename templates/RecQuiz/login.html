@@ -1,69 +1,76 @@
+{% extends 'RecQuiz/base.html' %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block title_block %}
+	Login
+{% endblock %}
+{% block body_block %}
+<div class="hold-transition login-page">
+	<div class="login-box">
+		<!-- /.login-logo -->
+		<div class="card">
+			<div class="card-body login-card-body">
+				<p class="login-box-msg">Sign in to start your session</p>
 
-    <!-- Bootstrap CSS -->
-    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+				<form  id="login_form" method="post" action="{% url 'RecQuiz:login' %}">{% csrf_token %}
+					<div class="input-group mb-3">
+						<input id="username" name="username" type="text" class="form-control"
+							placeholder="Username">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-envelope"></span>
+							</div>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input id="password" name="password" type="password" class="form-control"
+							placeholder="Password">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-lock"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<!-- <div class="icheck-primary">
+              <input type="checkbox" id="remember">
+              <label for="remember">
+                Remember Me
+              </label>
+            </div> -->
+						</div>
+						<!-- /.col -->
+						<div class="col-4" style="color: #138496">
+							<button id="login" type="submit"
+								class="btn btn-primary btn-block"
+								style="background-color: #138496; border-color: #138496;">Sign
+								In</button>
+						</div>
+						<!-- /.col -->
+					</div>
+				</form>
+                <p style="color: red">{{ login_form_errors }}</p>
+				<!--<div class="social-auth-links text-center mb-3">
+        <p>- OR -</p>
+        <a href="#" class="btn btn-block btn-primary">
+          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+        </a>
+      </div>-->
+				<!-- /.social-auth-links -->
 
-    <!-- Loding font -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
-
-    <!-- Custom Styles -->
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/login_style.css' %}">
-
-    <title>RecQuiz-Login</title>
-</head>
-<body>
-
-<!-- Backgrounds -->
-
-<div id="login-bg" class="container-fluid" style="z-index: 0;">
-
-  <div class="bg-img"></div>
-  <div class="bg-color"></div>
-</div>
-
-<!-- End Backgrounds -->
-
-<div class="container" id="login" style="z-index: 999;">
-	<div class="row justify-content-center">
-	<div class="col-lg-8">
-	  <div class="login">
-
-		<h1>Login</h1>
-		
-		<!-- Login form -->
-			  <form>
-				<div class="form-group">
-				  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-				  
-				</div>
-				<div class="form-group">
-				  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-				</div>
-
-				  <div class="form-check">
-
-				  <label class="switch">
-				  <input type="checkbox">
-				  <span class="slider round"></span>
-				</label>
-				  <label class="form-check-label" for="exampleCheck1">Remember me</label>
-				  
-				  <label class="forgot-password"><a href="#">Forgot Password?<a></label>
-
-				</div>			  
-				<br>
-				<button type="submit" class="btn btn-lg btn-block btn-success">Sign in</button>
-			  </form>
-		 <!-- End Loging form -->
+				<!-- <p class="mb-1">
+        <a href="forgot-password.html">I forgot my password</a>
+      </p>-->
+				<p class="mb-0">
+					<a href="{% url 'RecQuiz:register' %}" class="text-center" style="color: gray;">Register
+						as a new customer</a>
+				</p>
+			</div>
+			<!-- /.login-card-body -->
+		</div>
 	</div>
 </div>
-
-
-</body>
-</html>
+{% endblock %}

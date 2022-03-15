@@ -1,5 +1,4 @@
-{% extends 'RecQuiz/old_base.html' %}
-
+{% extends 'RecQuiz/base.html' %}
 {% load staticfiles %}
 
 {% block title_block %}
@@ -7,20 +6,55 @@
 {% endblock %}
 
 {% block body_block %}
-<!--Add my Course-->
-<h1>MyCourse</h1>
-<a class="nav-link" href="/recquiz/new_course">Add new Course</a>
-    {% if courses %}
-    {% for course in courses %}
-    <div class="card border-white border rounded shadow-lg" style="width: 230px;height: 165px;margin: 10px;margin-left: 15px;">
-        <div class="card-body" style="width: 205px;height: 300px;padding: 0px;margin: 10px;">
-            <h4 class="card-title" style="margin-top: 5px;">{{course.course_name}}</h4>
-            <p class="card-text" style="width: 180px;margin-top: 15px;margin-bottom: 20px;">{{course.coordinator}}</p>
-            <div role="group" class="btn-group"><a href="{% url 'RecQuiz:course' course.slug %}" class="btn btn-primary" style="/*background: rgb(72,72,72);*/">Start</a><button name="delete_course" class="btn btn-primary" type="button" style="margin-left: 25px;background-color: var(--bs-gray);">Delete</button></div>
+<main id="main" data-aos="fade-in">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <h2>Courses</h2>
+        <p>Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium. </p> 
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Courses Section ======= -->
+    {%if courses%}
+    <section id="courses" class="courses">
+      <div class="container" data-aos="fade-up">
+        <div>
+            <a href="{% url 'RecQuiz:add_course' %}">Add new Course</a>
         </div>
-    </div>
-    {% endfor %}
+        
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+            {% for course in courses %}
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" style="margin-bottom: 2%">
+            <div class="course-item">
+              <img src="{% static 'assets/img/course-1.jpg' %}" class="img-fluid" alt="...">
+              <div class="course-content">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h4>Web Development</h4>
+                  <p class="price">$99</p>
+                </div>
+
+                <h3><a>{{course.course_name}}</a></h3>
+                <p>{{course.coordinator}}</p>
+                <div class="trainer d-flex justify-content-between align-items-center">
+                  <div class="trainer-profile d-flex align-items-center">
+                    <span><a href="{% url 'RecQuiz:course' course.slug %}">START LEARNING</a></span>                   
+                  </div>
+                  <div class="trainer-profile d-flex align-items-center">
+                    <span><a href="{% url 'RecQuiz:course' course.slug %}">DELETE COURSE</a></span>                  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> <!-- End Course Item-->
+            {% endfor %}
     {% else %}
-    <h1>You have not registered any course.</h1>
+    <h1>There are not new courses.</h1>
     {% endif %}
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
 {% endblock %}
