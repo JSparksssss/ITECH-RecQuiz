@@ -4,8 +4,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE','RecQuiz_project.settings')
 
 import django
 django.setup()
-from RecQuiz.models import User, Course, Lecture, Quiz
-
+from RecQuiz.models import User, Course, Lecture, Quiz, UserProfile
+from django.contrib.auth.hashers import make_password
 def populate():
     quiz_page1 = [{'quiz_id':1, 'question':'What is not the target of this course?',
                 'answer1':'To defend the web attacks','answer2':'To attack others',
@@ -50,6 +50,8 @@ def populate():
         6789:{'quiz_page':quiz_page4,'lec_name':'not available','url':'not available', 
         'content':'NONE','length':0 }
     }
+    userprofile_pages2 = [{'gender':'Male','phone_number':1234567890}]
+    userprofile_pages1 = [{'gender':'Female','phone_number':1234567890}]
 
     course_pages1 = {
         4062: {'lec_page':lecture_page1, 'course_name':'Cyber Security Fundamentals', 'coordinator':'Maria Evangelopoulou'},
@@ -65,15 +67,17 @@ def populate():
         5089: {'lec_page':lecture_page3,'course_name':'Introduction to Data Science and Systems', 'coordinator':'Nicolas Pugeault'},
         5092: {'lec_page':lecture_page3,'course_name':'Research and Professional Skills', 'coordinator':'Helen Puchase'}
     }
-
+ 
     user_pages = {
-        2701452:{'cos_pages':course_pages1, 'psw':'123456','email_id':'2701452J@student.gla.ac.uk', 'first_name':'Mengqi','last_name':'Jiang','gender':'Female','phone_number':1234567890},
-        2701451:{'cos_pages':course_pages2, 'psw':'123456','email_id':'2701451J@student.gla.ac.uk', 'first_name':'Karen','last_name':'Jiang','gender':'Male','phone_number':1234567890}
+        'Mengqi':{'user_id':2701452,'cos_pages':course_pages1,'up_pages':userprofile_pages1, 'psw':make_password('fys70719610'),'email_id':'2701452J@student.gla.ac.uk', 'first_name':'Mengqi','last_name':'Jiang','gender':'Female','phone_number':1234567890},
+        'Karen':{'user_id':2701451,'cos_pages':course_pages2,'up_pages':userprofile_pages2,'psw':make_password('fys707196100'),'email_id':'2701451J@student.gla.ac.uk', 'first_name':'Karen','last_name':'Jiang','gender':'Male','phone_number':1234567890}
     }
 
 
     for user, user_data in user_pages.items():
-        u = add_user(user, user_data['psw'],user_data['email_id'],user_data['first_name'],user_data['last_name'],user_data['gender'],user_data['phone_number'])
+        u = add_user(user,user_data['user_id'], user_data['psw'],user_data['email_id'],user_data['first_name'],user_data['last_name'], )
+        for userprofile in user_data['up_pages']:
+            add_user_profile(u,userprofile['gender'],userprofile['phone_number'])
         for cour, cour_data in user_data['cos_pages'].items():
             c = add_course(u,cour,cour_data['course_name'],cour_data['coordinator'])
             for lect, lect_data in cour_data['lec_page'].items():
@@ -111,14 +115,20 @@ def add_course(user,course_id,course_name,coordinator):
     c.save()
     return c
 
-def add_user(user_id, psw, email_id, first_name, last_name, gender, phone_number):
-    u = User.objects.get_or_create(user_id=user_id)[0]
-    u.psw = psw
-    u.email_id = email_id
+def add_user_profile(user,gender,phone_number):
+    up = UserProfile.objects.get_or_create(user = user)[0]
+    up.gender = gender
+    up.phone = phone_number
+    up.save()
+    return up
+
+
+def add_user(user,user_id, psw, email_id, first_name, last_name):
+    u = User.objects.get_or_create(username = user, id = user_id)[0]
+    u.password = psw
+    u.email = email_id
     u.first_name = first_name
-    u.last_name = last_name
-    u.gender = gender
-    u.phone_number = phone_number
+    u.last_name = last_name 
     u.save()
     return u
 
