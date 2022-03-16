@@ -1,0 +1,130 @@
+{% extends 'RecQuiz/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+	Login
+{% endblock %}
+{% block body_block %}
+
+<div class="hold-transition register-page">
+{% if registered %}
+        RecQuiz says: <strong>thank you for registering!</strong>
+        <a href="{% url 'RecQuiz:login' %}">Return to the homepage.</a><br />
+{% else %}
+	<div class="register-box">
+		<div class="card">
+			<div class="card-body register-card-body" style="color:gray;">
+				<p class="login-box-msg">Customer Registration</p>
+
+				<form id="user_form" method="post" action="{% url 'RecQuiz:register' %}"
+            enctype="multipart/form-data">{% csrf_token %}
+                    <div class="input-group mb-3">
+						<input type="text" id="username" name="username" class="form-control"
+							placeholder="Username">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-user"></span>
+							</div>
+						</div>
+					</div>
+                    <div class="input-group mb-3">
+						<input type="text" id="first_name" name="first_name" class="form-control"
+							placeholder="First name">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-user"></span>
+							</div>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input type="text" id="last_name" name="last_name" class="form-control"
+							placeholder="Last name">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-user"></span>
+							</div>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input id="password" name="password" type="password" class="form-control"
+							placeholder="Password">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-lock"></span>
+							</div>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input id="email" name="email" type="email" class="form-control"
+							placeholder="Email">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-envelope"></span>
+							</div>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input id="phone" name="phone" type="text" class="form-control"
+							placeholder="Phone Number">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fa fa-phone"></span>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="input-group mb-3">
+						<select id="gender" name="gender" type="text" class="form-control"
+							placeholder="Gender">
+							<option value="M">Male</option>
+							<option value="F">Female</option>
+						</select>
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fa fa-user"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+
+							<a href="{% url 'RecQuiz:login' %}" class="text-center" style="color:gray;">I already have a
+								membership</a>
+							<!--<div class="icheck-primary">
+              <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+              <label for="agreeTerms">
+               I agree to the <a href="#">terms</a>
+              </label>
+            </div>-->
+						</div>
+						<!-- /.col -->
+						<div class="col-4" style="color: #138496">
+                            <input type="submit" name="submit" class="btn btn-primary btn-block"
+								style="background-color: #138496; border-color: #138496;" value="Register" />
+						</div>
+						<!-- /.col -->
+					</div>
+				</form>
+                {{ user_form_errors }}
+                {{ profile_form_errors }}
+				<!--<div class="social-auth-links text-center">
+        <p>- OR -</p>
+        <a href="#" class="btn btn-block btn-primary">
+          <i class="fab fa-facebook mr-2"></i>
+          Sign up using Facebook
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+          <i class="fab fa-google-plus mr-2"></i>
+          Sign up using Google+
+        </a>
+      </div>-->
+
+			</div>
+			<!-- /.form-box -->
+		</div>
+		<!-- /.card -->
+	</div>
+	<!-- /.register-box -->
+{% endif %}
+</div>
+{% endblock %}

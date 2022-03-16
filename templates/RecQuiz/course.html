@@ -1,0 +1,76 @@
+{% extends 'RecQuiz/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {% if course %}
+      {{course.course_name}}
+    {% else %}
+      Course
+    {% endif %}
+{% endblock %}
+
+{% block sidebar_block %}
+{% endblock %}
+{% block body_block %}
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <h2>{{course.course_name}}</h2>
+        <p>Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium. </p> 
+      </div>
+    </div><!-- End Breadcrumbs -->
+  
+  <div class="container" data-aos="fade-up">
+    <!--Initialize hidden quiz box-->
+    <div id="quiz-box" name="quiz-box" style="visibility: hidden;">
+      <div id='quiz'></div>
+      <div class='button' id='next'><a href='#'>Next</a></div>
+      <div class='button' id='prev'><a href='#'>Prev</a></div>
+      <div class='button' id='start'> <a href='#'>Start Over</a></div>
+    </div>
+
+    <!--Video Plugin-->
+    <div style="display: flex;">
+      <video id="my_video" class="video-js vjs-default-skin" controls preload="auto" width="800" height="500" 
+    data-setup='{ "asdf": true }'>
+      <source src="https://drive.google.com/uc?export=view&id=1_RgKGmEL5Ro0-I98rT3itPZA_XxhyQLX" type='video/mp4'>
+      <!-- <source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'> -->
+      <!-- https://drive.google.com/uc?export=view&id=1_RgKGmEL5Ro0-I98rT3itPZA_XxhyQLX/  -->
+    </video>
+      <!--Quiz Plugin-->
+
+      <div class="col-lg-4" style="margin-left: 10px;">
+        {% if quizs %}
+        <div class="list-group">
+          {% for quiz in quizs %}
+          <a class="list-group-item list-group-item-action" href="#list-home" data-bs-toggle="list">{{quiz.quiz_id}}</a>
+          {% endfor %}
+        
+        </div>
+        {% else %}
+        <p>This lecture has no quiz.</p>
+        {% endif %}
+      </div>
+    </div>
+    
+
+    
+   
+    <!--Lecture Plugin-->
+    <div style="margin-top: 10px;">
+      <h1>Lecture List</h1>
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul class="nav nav-pills">
+          <li class="nav-item"><a class="nav-link" href="#">Lecture 1</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Lecture 2</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Lecture 3</a></li>
+        </ul>
+      </nav>
+      
+    </div>
+  </div>
+
+</main>
+  {% endblock %}
