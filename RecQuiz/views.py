@@ -110,6 +110,7 @@ def course(request,course_name_slug):
         context_dict['current_lecture'] = lecture
         context_dict['quizs'] = quizs
         context_dict['json_quizs'] = get_quiz_json(request,quizs)
+        print(context_dict['json_quizs'])
         return render(request,'RecQuiz/course.html',context = context_dict)
     except Course.DoesNotExist:
         print("Error")
@@ -309,11 +310,13 @@ def get_quiz_json(request,quizs):
             {
                 'question':quiz.question,
                 'choices':[quiz.answer1,quiz.answer2,quiz.answer3,quiz.answer4],
-                'correctAnswer':quiz.correct_answer
+                'correctAnswer':quiz.correct_answer,
+                'time':quiz.lecture_time
             }
             for quiz in quizs
         ]
     )
+
     return quiz_json  
 def about(request):
     return render(request,'RecQuiz/about.html')

@@ -10,7 +10,9 @@
 {% endblock %}
 
 {% block sidebar_block %}
+  <div id='jsonData' data-json="{{json_quizs}}"></div>
 {% endblock %}
+
 {% block body_block %}
 <main id="main">
 
@@ -23,14 +25,6 @@
     </div><!-- End Breadcrumbs -->
   
   <div class="container" data-aos="fade-up">
-    <!--Initialize hidden quiz box-->
-    <div id="quiz-box" name="quiz-box" style="visibility: hidden;">
-      <div id='quiz'></div>
-      <div class='button' id='next'><a href='#'>Next</a></div>
-      <div class='button' id='prev'><a href='#'>Prev</a></div>
-      <div class='button' id='start'> <a href='#'>Start Over</a></div>
-    </div>
-    
     <!--Video Plugin-->
     <div style="display: flex;">
       <video id="my_video" class="video-js vjs-default-skin" controls preload="auto" width="800" height="500" 
@@ -55,7 +49,23 @@
         {% endif %}
       </div>
     </div>
-    
+    <style>
+      .quiz-box{
+        visibility: hidden;
+        position: fixed;
+        background-color: pink;
+        top: 0px;
+        width: 740px;
+        height: 500px;
+      }
+    </style>
+    <!--Initialize hidden quiz box-->
+    <div id="quiz-box" class="quiz-box">
+      <div id='quiz'></div>
+      <div class='button' id='next'><a href='#'>Next</a></div>
+      <div class='button' id='prev'><a href='#'>Prev</a></div>
+      <div class='button' id='start'> <a href='#'>Start Over</a></div>
+    </div>
 
     
    

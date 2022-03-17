@@ -2,22 +2,37 @@
 
  var video = videojs('my_video');
 
-
  
- var questions = [{
-    question: "What is your major?",
-    choices: ['Internet Technology','Computing Science','Data Science','Software Development'],
-    correctAnswer: 'Internet Technology'
-  }, {
-    question: "What is your major?",
-    choices: ['Internet Technology','Computing Science','Data Science','Software Development'],
-    correctAnswer: 'Computing Science'
-  }];
+ var jsonData = JSON.parse(document.querySelector('#jsonData').getAttribute('data-json'));
+ console.log("jsonData",jsonData);
+ console.log(jsonData.length)
+
+ var questions = jsonData
+ console.log("questions:",questions)
+//  var questions = [{
+//     question: "What is your major?",
+//     choices: ['Internet Technology','Computing Science','Data Science','Software Development'],
+//     correctAnswer: 'Internet Technology'
+//   }, {
+//     question: "What is your major?",
+//     choices: ['Internet Technology','Computing Science','Data Science','Software Development'],
+//     correctAnswer: 'Computing Science'
+//   }];
   
   var questionCounter = 0; //Tracks question number
   var selections = []; //Array containing user choices
   var quiz = $('#quiz'); //Quiz div object
   
+  var markers = []
+
+  for (var i = 0; i < jsonData.length; i++){
+    marker = {
+      time:jsonData[i].time,
+      text:jsonData[i].question
+    }
+    markers.push(marker)
+  }
+  console.log("markers:",markers)
  console.log("marker-quiz.js is loading");
  //quiz可以先通过html页面存放到cookie中
  //记得在跳出页面时消除cookie
@@ -35,13 +50,7 @@
      let quiz = marker.text
     //  alert(quiz['question'])
    },
-   markers: [
-       //重构一下
-
-       {time: 5, text:questions[0]},
-       {time: 3, text:questions[1]},
-       
-   ]
+   markers: this.markers
  });
 
   // Click handler for the 'next' button
