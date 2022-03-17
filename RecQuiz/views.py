@@ -208,14 +208,15 @@ def user_login(request):
             if user.is_active:
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
+                max_age = 30 * 60
                 login(request, user)
                 rep = redirect(reverse('RecQuiz:index'))
-                rep.set_cookie("is_login", True)
+                rep.set_cookie("is_login", True, max_age=max_age)
                 id = User.objects.filter(username=username).values("id")
                 print(id)
                 user_profile = UserProfile.objects.filter(user_id=id[0].get('id')).values("slug")
                 print(user_profile)
-                rep.set_cookie("slug", user_profile[0].get('slug'))
+                rep.set_cookie("slug", user_profile[0].get('slug'), max_age=max_age)
                 return rep
             else:
                 # An inactive account was used - no logging in!
