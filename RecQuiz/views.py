@@ -48,9 +48,7 @@ def my_course(request):
         user_slug = request.COOKIES.get('slug')
         is_login = request.COOKIES.get('is_login')
         print(user_slug)
-        print('222222')
         if user_slug:
-            print("11111")
             sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_slug + "\'"
             cursor = connection.cursor()
             cursor.execute(sql)
@@ -71,8 +69,8 @@ def my_course(request):
         context_dict['is_login'] = True
     else:
         context_dict['is_login'] = False
-    return render(request,'RecQuiz/my_course.html',context = context_dict)
-    
+    return render(request,'RecQuiz/courses.html',context = context_dict)
+
 def remove_course(request,course_name_slug):
     #显示所有的Course
     print(course_name_slug)

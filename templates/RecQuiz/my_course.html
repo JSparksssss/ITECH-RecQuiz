@@ -1,4 +1,4 @@
-{% extends 'RecQuiz/base.html' %}
+<!-- {% extends 'RecQuiz/base.html' %}
 {% load staticfiles %}
 
 {% block title_block %}
@@ -21,7 +21,7 @@
     <section id="courses" class="courses">
       <div class="container" data-aos="fade-up">
         <div>
-            <a href="{% url 'RecQuiz:add_course' %}">Add new Course</a>
+            <a href="{% url 'RecQuiz:add_course' %}" class="get-started-btn">Add new Course</a>
         </div>
         
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
@@ -32,7 +32,6 @@
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h4>Web Development</h4>
-                  <p class="price">$99</p>
                 </div>
 
                 <h3><a>{{course.course_name}}</a></h3>
@@ -51,10 +50,12 @@
             {% endfor %}
     {% else %}
     <h1>There are not new courses.</h1>
+
+    <a href="{% url 'RecQuiz:add_course' %}" class="get-started-btn" >Add new Course</a>
     {% endif %}
         </div>
       </div>
     </section>
 
   </main><!-- End #main -->
-{% endblock %}
+{% endblock %} -->

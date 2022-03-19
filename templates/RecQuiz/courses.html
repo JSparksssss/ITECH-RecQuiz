@@ -13,28 +13,22 @@
         <h2>Courses</h2>
         <p>Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium. </p> 
       </div>
-        {%if is_login%}
-        <div id="addCourse">
-        <a href="#" style="background: #5fcf80;color: #fff;border-radius: 50px;padding: 8px 25px;white-space: nowrap;transition: 0.3s;font-size: 14px;display: inline-block;">Add new course</a>
-        </div>
-        {% else %}
-        {% endif %}
+        
     </div><!-- End Breadcrumbs -->
 
-    <!--
-        这里分两种情况，如果user没有login,那么显示所有的course
-        如果user login了，那么只显示用户注册的course
-        此处逻辑在view层进行
-    -->
-   
+    {% if user.is_authenticated %}
+    <div class="contact">
+      <div class = "text-center">
+        <a href="{% url 'RecQuiz:add_course' %}" class="get-started-btn">Add new Course</a>
+      </div> 
+    </div>    
+    {% else %}
+    {% endif %}
     <!-- ======= Courses Section ======= -->
     {%if courses%}
-    <section id="courses" class="courses">
+    <div id="courses" class="courses">
       <div class="container" data-aos="fade-up">
-        <!-- <div>
-            <a href="{% url 'RecQuiz:add_course' %}">Add new Course</a>
-        </div> -->
-        
+      
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
             {% for course in courses %}
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch" style="margin-bottom: 2%">
@@ -43,14 +37,19 @@
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h4>Web Development</h4>
-                  <p class="price">$99</p>
                 </div>
 
                 <h3><a>{{course.course_name}}</a></h3>
                 <p>{{course.coordinator}}</p>
                 <div class="trainer d-flex justify-content-between align-items-center">
                   <div class="trainer-profile d-flex align-items-center">
-                    <span><a href="{% url 'RecQuiz:course' course.slug %}">START LEARNING</a></span>                   
+                    <span><a href="{% url 'RecQuiz:course' course.slug %}">START LEARNING</a></span>
+                    {% if user.is_authenticated %}
+                      <div class="trainer-profile d-flex align-items-center">
+                        <span><a href="{% url 'RecQuiz:remove_course' course.slug %}">DELETE COURSE</a></span>                   
+                      </div>
+                    {% else %}
+                    {% endif %}
                   </div>
                 </div>
               </div>
@@ -58,11 +57,16 @@
           </div> <!-- End Course Item-->
             {% endfor %}
     {% else %}
-    <h1>There are not new courses.</h1>
+      <h1>There are not new courses.</h1>
+      {% if user.is_authenticated %}
+        <a href="{% url 'RecQuiz:add_course' %}" class="get-started-btn" >Add new Course</a>
+      {% else %}
+      {% endif %}
+
     {% endif %}
         </div>
       </div>
-    </section>
+    </div>
 
   </main><!-- End #main -->
 {% endblock %}
