@@ -73,26 +73,43 @@ def my_course(request):
         context_dict['is_login'] = False
     return render(request,'RecQuiz/my_course.html',context = context_dict)
 
-def add_course(request):
-    #这里需要实现一个表单request修改数据库的操作
-    #用户点击Add To MyCourse可以在Course的外键新增添加一个User的链接
-
-    # if request.method == 'POST':
-    #     print("success")
+def add_course(request,course_name_slug):
+    print('1')
+    print(course_name_slug)
+    print('2')
     context_dict = {}
-    # user_id = request.COOKIES.get('user_id')
     try:
-        # 然后这里的逻辑是筛选用户未选择的课程
-        # user = User.objects.get(user_id=user_id)
-        # courses = Course.objects.filter(user)
-
-        #这只是为了界面显示而做的操作
-        courses = Course.objects.all() 
+        user_slug = request.COOKIES.get('slug')
+        is_login = request.COOKIES.get('is_login')
+        print(user_slug)
+        if user_slug:
+            cursorid = Course.objects.get(slug = course_name_slug).id
+            sql = "UPDATE FROM RecQuiz_course_user WHERE course_id \='"+str(cursorid) + "\' and user_id = \'"+user_slug + "\'"
+            cursor = connection.cursor()
+            cursor.execute(sql)
+            sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_slug + "\'"
+            cursor = connection.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            courses = []
+            print(results)
+            for course_id in results:
+                print(course_id[0])
+                print(Course.objects.get(id=course_id[0]))
+                courses.append(Course.objects.get(id=course_id[0]))
+        else:
+            courses = Course.objects.all()
+        print(courses)
         context_dict['courses'] = courses
         print("add_course view load data success.")
     except Course.DoesNotExist:
         context_dict['courses'] = None
+    if is_login:
+        context_dict['is_login'] = True
+    else:
+        context_dict['is_login'] = False
     return render(request,'RecQuiz/add_course.html',context = context_dict)
+
 
         
 def course(request,course_name_slug):

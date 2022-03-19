@@ -37,7 +37,7 @@
                   <div class="trainer d-flex justify-content-between align-items-center">
                     <div class="trainer-profile d-flex align-items-center">
                       <span><a href="{% url 'RecQuiz:course' course.slug %}">START LEARNING</a></span>    
-                      <span><a href="#">add to myCourse</a></span>               
+                      <span><a href="{% url 'RecQuiz:add_course' course.slug %}">add to myCourse</a></span>               
                     </div>
                   </div>
                 </div>
