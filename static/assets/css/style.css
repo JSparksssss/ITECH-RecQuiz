@@ -700,6 +700,17 @@ section {
   color: #657a6d;
 }
 
+#addNewCourse{
+  background: #5fcf80;
+  color: #fff;
+  border-radius: 50px;
+  padding: 8px 25px;
+  white-space: nowrap;
+  transition: 0.3s;
+  font-size: 14px;
+  display: inline-block;
+}
+
 /*--------------------------------------------------------------
 # Trainers
 --------------------------------------------------------------*/

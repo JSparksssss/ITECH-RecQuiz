@@ -13,16 +13,7 @@
         <h2>Courses</h2>
         <p>Welcome to the course library! Here you can choose your favorite courses to study. Let's start! </p>
       </div>
-        {%if is_login%}
-        <div id="addCourse">
-        <a href="#" style="background: #5fcf80;color: #fff;border-radius: 50px;padding: 8px 25px;white-space: nowrap;transition: 0.3s;font-size: 14px;display: inline-block;">Add new course</a>
-        </div>
-        {% else %}
-        {% endif %}
     </div><!-- End Breadcrumbs -->
-    <div>
-
-    </div>
     <!--
         这里分两种情况，如果user没有login,那么显示所有的course
         如果user login了，那么只显示用户注册的course
@@ -33,7 +24,14 @@
     {%if courses%}
     <section id="courses" class="courses">
       <div class="container" data-aos="fade-up">
-
+        <div>
+        {%if is_login%}
+            <div>
+                <a href="{% url 'RecQuiz:add_course' %}" id="addNewCourse">Add new Course</a>
+            </div>
+            {% else %}
+            {% endif %}
+        </div>
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
             {% for course in courses %}
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch" style="margin-bottom: 2%">
