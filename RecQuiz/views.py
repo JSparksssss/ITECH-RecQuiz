@@ -72,6 +72,41 @@ def my_course(request):
     else:
         context_dict['is_login'] = False
     return render(request,'RecQuiz/my_course.html',context = context_dict)
+    
+def remove_course(request,course_name_slug):
+    #显示所有的Course
+    print(course_name_slug)
+    context_dict = {}
+    try:
+        user_slug = request.COOKIES.get('slug')
+        is_login = request.COOKIES.get('is_login')
+        print(user_slug)
+        if user_slug:
+            cursorid = Course.objects.get(slug=course_name_slug).id
+            sql = "DELETE FROM RecQuiz_course_user WHERE course_id = \'" + str(cursorid) + "\' and user_id = \'" + user_slug + "\'"
+            cursor = connection.cursor()
+            cursor.execute(sql)
+            sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_slug + "\'"
+            cursor = connection.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            courses = []
+            print(results)
+            for course_id in results:
+                print(course_id[0])
+                print(Course.objects.get(id=course_id[0]))
+                courses.append(Course.objects.get(id=course_id[0]))
+        else:
+            courses = Course.objects.all()
+        print(courses)
+        context_dict['courses'] = courses
+    except Course.DoesNotExist:
+        context_dict['course'] = None
+    if is_login:
+        context_dict['is_login'] = True
+    else:
+        context_dict['is_login'] = False
+    return render(request,'RecQuiz/my_course.html',context = context_dict)
 
 def add_course(request):
     #这里需要实现一个表单request修改数据库的操作
