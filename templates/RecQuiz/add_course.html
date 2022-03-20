@@ -11,33 +11,37 @@
     <!-- ======= Breadcrumbs ======= -->
     <div class="breadcrumbs">
       <div class="container">
-        <h2>Courses</h2>
-        <p>Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium. </p> 
-      </div>
+        <h2>Add Courses</h2>
+        </div>
     </div><!-- End Breadcrumbs -->
     <div>
+      <div class="contact">
+        <div class = "text-center">
+          <a href="{% url 'RecQuiz:my_course' %}" class="get-started-btn">Back to MyCourse</a>
+        </div> 
 
+      </div> 
     </div>
     {%if courses%}
-    <section id="courses" class="courses">
+    <div id="courses" class="courses">
       <div class="container" data-aos="fade-up">
 
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
             {% for course in courses %}
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch course-box">
             <div class="course-item">
               <img src="{% static 'assets/img/course-1.jpg' %}" class="img-fluid" alt="...">
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h4>Web Development</h4>
-                  <p class="price">$99</p>
+
                 </div>
                 <h3><a>{{course.course_name}}</a></h3>
                 <p>{{course.coordinator}}</p>               
                   <div class="trainer d-flex justify-content-between align-items-center">
                     <div class="trainer-profile d-flex align-items-center">
                       <span><a href="{% url 'RecQuiz:course' course.slug %}">START LEARNING</a></span>    
-                      <span><a href="{% url 'RecQuiz:add_course' course.slug %}">add to myCourse</a></span>               
+                      <span><a href="{% url 'RecQuiz:add_course' course.slug %}" class="get-started-btn">ADD COURSE</a></span>               
                     </div>
                   </div>
                 </div>
@@ -50,7 +54,7 @@
     {% endif %}
         </div>
       </div>
-    </section>End Courses Section
+    </div>
 
   </main><!-- End #main -->
 {% endblock %}

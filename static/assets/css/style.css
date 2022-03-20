@@ -700,6 +700,17 @@ section {
   color: #657a6d;
 }
 
+#addNewCourse{
+  background: #5fcf80;
+  color: #fff;
+  border-radius: 50px;
+  padding: 8px 25px;
+  white-space: nowrap;
+  transition: 0.3s;
+  font-size: 14px;
+  display: inline-block;
+}
+
 /*--------------------------------------------------------------
 # Trainers
 --------------------------------------------------------------*/
@@ -1098,7 +1109,6 @@ section {
 --------------------------------------------------------------*/
 .contact {
   padding-top: 5px;
-  padding-bottom: 5px;
 }
 .contact .info {
   width: 100%;
@@ -1362,4 +1372,8 @@ section {
   background: #3ac162;
   color: #fff;
   text-decoration: none;
+}
+
+.course-box{
+  margin-top: 2px;
 }

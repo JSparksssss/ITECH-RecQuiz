@@ -110,25 +110,37 @@ def remove_course(request,course_name_slug):
 def add_course_page(request):
     context_dict = {}
     try:
+
         user_id = request.COOKIES.get('user_id')
         is_login = request.COOKIES.get('is_login')
         print("user_slug:",user_id)
         if user_id:
-            sql = "SELECT course_id from RecQuiz_course_user where user_id <>\'" + user_id + "\'"
+            print("Select unregistered course")
+            sql_user = "SELECT course_id from RecQuiz_course_user where user_id <> \'" + user_id + "\'"
+            cursor = connection.cursor()
+            cursor.execute(sql_user)
+            results_user = cursor.fetchall()
+            print("USER REGISTER",results_user)
+
+            sql = "SELECT course_id from RecQuiz_course_user"
             cursor = connection.cursor()
             cursor.execute(sql)
             results = cursor.fetchall()
-            courses = []
-            print(results)
-            for course_id in results:
+            print("ALL course",results)
+
+            final = list(set(results_user).difference(set(results)))
+            print("Final result is",final)
+            courses_user = []
+            # print(results)
+            for course_id in final:
                 print(course_id[0])
-                print(Course.objects.get(id=course_id[0]))
-                courses.append(Course.objects.get(id=course_id[0]))
+                # print(Course.objects.get(id=course_id[0]))
+                courses_user.append(Course.objects.get(id=course_id[0]))
         else:
             print("user slug is NULL")
             courses = Course.objects.all()
-        print(courses)
-        context_dict['courses'] = courses
+        # print(courses)
+        context_dict['courses'] = courses_user
     except Course.DoesNotExist:
         context_dict['course'] = None
     if is_login:
@@ -162,7 +174,9 @@ def add_course(request,course_name_slug):
         else:
             courses = Course.objects.all()
         print(courses)
+        courses = Course.objects.all()
         context_dict['courses'] = courses
+        
         print("add_course view load data success.")
     except Course.DoesNotExist:
         context_dict['courses'] = None
