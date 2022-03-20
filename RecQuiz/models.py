@@ -9,9 +9,11 @@ class UserProfile(models.Model):
     phone = models.CharField(max_length=50)
     gender = models.CharField(max_length=50)
     # picture = models.ImageField(upload_to='profile_images', blank=True)
-    slug = models.SlugField(blank=True)
-    def __str__(self):
-        return self.user
+    
+    # slug = models.SlugField(blank=True)
+    # def __str__(self):
+    #     self.slug = slugify(str(self.user.id))
+    #     return self.user
 
 # class User(models.Model):
 #     user_id = models.IntegerField(default=0)

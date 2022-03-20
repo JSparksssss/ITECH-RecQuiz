@@ -20,7 +20,9 @@ def index(request):
     # if not status:
     #     return redirect(reverse('RecQuiz:login'))
     is_login=request.COOKIES.get('is_login')
+    print("is_login:",is_login)
     username=request.COOKIES.get('username')
+    print("user_id:",request.COOKIES.get('user_id'))
     return render(request,'RecQuiz/index.html', context = {'is_login': is_login, 'username': username})
 
 # def index(request):
@@ -43,13 +45,11 @@ def my_course(request):
     #显示所有的Course
     context_dict = {}
     try:
-        # user = User.objects.get(slug=user_id_slug)
-        # course = Course.objects.filter(User=user)
-        user_slug = request.COOKIES.get('slug')
+        user_id = request.COOKIES.get('user_id')
         is_login = request.COOKIES.get('is_login')
-        print(user_slug)
-        if user_slug:
-            sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_slug + "\'"
+        print("user_slug:",user_id)
+        if user_id:
+            sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_id + "\'"
             cursor = connection.cursor()
             cursor.execute(sql)
             results = cursor.fetchall()
@@ -60,6 +60,7 @@ def my_course(request):
                 print(Course.objects.get(id=course_id[0]))
                 courses.append(Course.objects.get(id=course_id[0]))
         else:
+            print("user slug is NULL")
             courses = Course.objects.all()
         print(courses)
         context_dict['courses'] = courses
@@ -76,7 +77,7 @@ def remove_course(request,course_name_slug):
     print(course_name_slug)
     context_dict = {}
     try:
-        user_slug = request.COOKIES.get('slug')
+        user_slug = request.COOKIES.get('user_id')
         is_login = request.COOKIES.get('is_login')
         print(user_slug)
         if user_slug:
@@ -225,7 +226,7 @@ def register(request):
             # profile.set_phone(profile.phone)
             profile.phone = phone
             profile.gender = gender
-            profile.slug = user.id
+            # profile.slug = user.id
 
             # Now we save the UserProfile model instance.
             profile.save()
@@ -282,10 +283,12 @@ def user_login(request):
                 rep = redirect(reverse('RecQuiz:index'))
                 rep.set_cookie("is_login", True)
                 id = User.objects.filter(username=username).values("id")
-                print(id)
-                user_profile = UserProfile.objects.filter(user_id=id[0].get('id')).values("slug")
-                print(user_profile)
-                rep.set_cookie("slug", user_profile[0].get('slug'))
+                print(id[0].get('id'))
+                # user_profile = UserProfile.objects.filter(user_id=id[0].get('id')).values("slug")
+                user_profile = UserProfile.objects.filter(user_id=id[0].get('id'))
+                print("user_profile is:",user_profile)
+                # rep.set_cookie("user_id", user_profile[0].get('slug'))
+                rep.set_cookie("user_id",id[0].get('id'))
                 return rep
             else:
                 # An inactive account was used - no logging in!

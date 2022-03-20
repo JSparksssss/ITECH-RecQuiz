@@ -58,11 +58,6 @@
             {% endfor %}
     {% else %}
       <h1>There are not new courses.</h1>
-      {% if user.is_authenticated %}
-        <a href="{% url 'RecQuiz:add_course' %}" class="get-started-btn" >Add new Course</a>
-      {% else %}
-      
-      {% endif %}
     {% endif %}
         </div>
       </div>
