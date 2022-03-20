@@ -52,16 +52,27 @@
       .quiz-box{
         visibility: hidden;
         position: fixed;
-        background-color: pink;
+        background-color: #DDDDDD;
         top: 0px;
         width: 740px;
         height: 500px;
       }
+      #quizSubmit{
+          background: #5fcf80;
+          color: #fff;
+          border-radius: 50px;
+          padding: 8px 25px;
+          white-space: nowrap;
+          transition: 0.3s;
+          font-size: 14px;
+          display: inline-block;
+        }
+
     </style>
     <!--Initialize hidden quiz box-->
     <div id="quiz-box" class="quiz-box">
       <div id='quiz'></div>
-      <div class='button' id='submit'><a href='#'>Submit</a></div>
+      <div class='button' id='submit'><a href='#' id='quizSubmit'>Submit</a></div>
       <!-- <div class='button' id='prev'><a href='#'>Prev</a></div>
       <div class='button' id='start'> <a href='#'>Start Over</a></div> -->
     </div>

@@ -1377,3 +1377,12 @@ section {
 .course-box{
   margin-top: 2px;
 }
+
+.quiz-box{
+  visibility: hidden;
+  position: fixed;
+  background-color: pink;
+  top: 0px;
+  width: 740px;
+  height: 500px;
+}
