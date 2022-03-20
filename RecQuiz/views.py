@@ -147,9 +147,8 @@ def add_course(request,course_name_slug):
         print(user_slug)
         if user_slug:
             cursorid = Course.objects.get(slug = course_name_slug).id
-            sql = "UPDATE FROM RecQuiz_course_user WHERE course_id \='"+str(cursorid) + "\' and user_id = \'"+user_slug + "\'"
             cursor = connection.cursor()
-            cursor.execute(sql)
+            cursor.execute("INSERT INTO RecQuiz_course_user (course_id, user_id) VALUES (%s,%s)", [str(cursorid),user_slug])
             sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_slug + "\'"
             cursor = connection.cursor()
             cursor.execute(sql)
