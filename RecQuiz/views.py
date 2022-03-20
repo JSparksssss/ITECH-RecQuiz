@@ -108,39 +108,38 @@ def remove_course(request,course_name_slug):
     return redirect(reverse('RecQuiz:my_course'))
 
 def add_course_page(request):
+    #显示所有的Course
     context_dict = {}
     try:
-
         user_id = request.COOKIES.get('user_id')
         is_login = request.COOKIES.get('is_login')
         print("user_slug:",user_id)
         if user_id:
-            print("Select unregistered course")
-            sql_user = "SELECT course_id from RecQuiz_course_user where user_id <> \'" + user_id + "\'"
-            cursor = connection.cursor()
-            cursor.execute(sql_user)
-            results_user = cursor.fetchall()
-            print("USER REGISTER",results_user)
-
-            sql = "SELECT course_id from RecQuiz_course_user"
+            courses = Course.objects.all()
+            total_courses = []
+            for course in courses:
+                total_courses.append(course)
+            sql = "SELECT course_id from RecQuiz_course_user where user_id=\'" + user_id + "\'"
             cursor = connection.cursor()
             cursor.execute(sql)
             results = cursor.fetchall()
-            print("ALL course",results)
-
-            final = list(set(results_user).difference(set(results)))
-            print("Final result is",final)
-            courses_user = []
-            # print(results)
-            for course_id in final:
+            user_courses = []
+            print(results)
+            for course_id in results:
                 print(course_id[0])
-                # print(Course.objects.get(id=course_id[0]))
-                courses_user.append(Course.objects.get(id=course_id[0]))
+                print(Course.objects.get(id=course_id[0]))
+                user_courses.append(Course.objects.get(id=course_id[0]))
+            for course in user_courses:
+                if course in total_courses:
+                    total_courses.remove(course)
+            print(user_courses)
+            print(total_courses)
+            courses = total_courses
         else:
             print("user slug is NULL")
             courses = Course.objects.all()
-        # print(courses)
-        context_dict['courses'] = courses_user
+        print(courses)
+        context_dict['courses'] = courses
     except Course.DoesNotExist:
         context_dict['course'] = None
     if is_login:

@@ -14,14 +14,11 @@
         <h2>Add Courses</h2>
         </div>
     </div><!-- End Breadcrumbs -->
-    <div>
       <div class="contact">
         <div class = "text-center">
           <a href="{% url 'RecQuiz:my_course' %}" class="get-started-btn">Back to MyCourse</a>
         </div> 
-
       </div> 
-    </div>
     {%if courses%}
     <div id="courses" class="courses">
       <div class="container" data-aos="fade-up">
@@ -49,12 +46,11 @@
             </div>
  <!-- End Course Item-->
             {% endfor %}
-    {% else %}
-    <h1>There are not new courses.</h1>
-    {% endif %}
         </div>
       </div>
     </div>
-
+    {% else %}
+    <h1>There are not new courses.</h1>
+    {% endif %}
   </main><!-- End #main -->
 {% endblock %}
