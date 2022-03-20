@@ -14,7 +14,6 @@
 {% endblock %}
 
 {% block body_block %}
-
 <main id="main">
 
   <!-- ======= Breadcrumbs ======= -->
@@ -23,110 +22,103 @@
         <h2>{{course.course_name}}</h2>
       </div>
     </div><!-- End Breadcrumbs -->
-    
-    <div class="contact">
-      <div class = "text-center">
-        <a href="{% url 'RecQuiz:my_course' %}" class="get-started-btn">Back to MyCourse</a>
-      </div> 
-    </div> 
-  {% if current_lecture.id == 6789 %}
+  <div id="contact" name="contact">
     <div class="container" data-aos="fade-up">
-      <!--Video Plugin-->
-      <div style="display: flex;">
-        <video id="my_video" class="video-js vjs-default-skin" controls preload="auto" width="800" height="500" 
-      data-setup='{ "asdf": true }'>
-      
-        <source src=" {{current_lecture.url}} " type='video/mp4'>
-        <!-- <source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'> -->
-        <!-- https://drive.google.com/uc?export=view&id=1_RgKGmEL5Ro0-I98rT3itPZA_XxhyQLX/  -->
-      </video>
-        <!--Quiz Plugin-->
-
-        <div class="col-lg-4" style="margin-left: 10px;">
-          {% if quizs %}
-          <div class="list-group">
-            {% for quiz in quizs %}
-            <button class="list-group-item list-group-item-action question-list-item" href="#list-home" data-bs-toggle="modal" data-bs-target="#Question{{quiz.quiz_id}}" disabled>Question {{quiz.quiz_id}}</button>
-            {% endfor %}
-          
-          </div>
-          {% else %}
-          <p>This lecture has no quiz.</p>
-          {% endif %}
-        </div>
-      </div>
-      <style>
-        .quiz-box{
-          visibility: hidden;
-          position: fixed;
-          background-color: pink;
-          top: 0px;
-          width: 740px;
-          height: 500px;
-        }
-      </style>
-      <!--Initialize hidden quiz box-->
-      <div id="quiz-box" class="quiz-box">
-        <div id='quiz'></div>
-        <div class='button' id='submit'><a href='#'>Submit</a></div>
-        <!-- <div class='button' id='prev'><a href='#'>Prev</a></div>
-        <div class='button' id='start'> <a href='#'>Start Over</a></div> -->
-      </div>
-
+    <!--Video Plugin-->
+    <div style="display: flex;">
+      <video id="my_video" class="video-js vjs-default-skin" controls preload="auto" width="800" height="500" 
+    data-setup='{ "asdf": true }'>
     
-      <!--Lecture Plugin-->
-      <div style="margin-top: 10px;">
-        <h1>Lecture List</h1>
-        <nav id="navbar" class="navbar order-last order-lg-0">
-          <ul class="nav nav-pills">
-            {% if lectures %}
-              {% for lecture in lectures %}
-                {% if lecture == current_lecture %}
-                  <li class="nav-item"><a class="active nav-link" href="{% url 'RecQuiz:lecture' course_name_slug=course.slug lec_id=lecture.lec_id %}">Lecture {{lecture.lec_id}}</a></li>
-                {% else %}
-                  <li class="nav-item"><a class="nav-link" href="{% url 'RecQuiz:lecture' course_name_slug=course.slug lec_id=lecture.lec_id  %}">Lecture {{lecture.lec_id}}</a></li>
-                {% endif %}
-              {% endfor %}
-            {% else %}
-            {% endif %}
-          </ul>
-        </nav>
+      <source src=" {{current_lecture.url}} " type='video/mp4'>
+      <!-- <source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'> -->
+      <!-- https://drive.google.com/uc?export=view&id=1_RgKGmEL5Ro0-I98rT3itPZA_XxhyQLX/  -->
+    </video>
+      <!--Quiz Plugin-->
+
+      <div class="col-lg-4" style="margin-left: 10px;">
+        {% if quizs %}
+        <div class="list-group">
+          {% for quiz in quizs %}
+          <button class="list-group-item list-group-item-action question-list-item" href="#list-home" data-bs-toggle="modal" data-bs-target="#Question{{quiz.quiz_id}}" disabled>Question {{quiz.quiz_id}}</button>
+          {% endfor %}
         
+        </div>
+        {% else %}
+        <p>This lecture has no quiz.</p>
+        {% endif %}
       </div>
     </div>
-  {% else %}
-    <h1>Sorry, there are no lectures update currently. </h1>
-  {% endif %}
-  {% endblock %}
+    <style>
+      .quiz-box{
+        visibility: hidden;
+        position: fixed;
+        background-color: pink;
+        top: 0px;
+        width: 740px;
+        height: 500px;
+      }
+    </style>
+    <!--Initialize hidden quiz box-->
+    <div id="quiz-box" class="quiz-box">
+      <div id='quiz'></div>
+      <div class='button' id='submit'><a href='#'>Submit</a></div>
+      <!-- <div class='button' id='prev'><a href='#'>Prev</a></div>
+      <div class='button' id='start'> <a href='#'>Start Over</a></div> -->
+    </div>
+
+   
+    <!--Lecture Plugin-->
+    <div style="margin-top: 10px;">
+      <h1>Lecture List</h1>
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul class="nav nav-pills">
+          {% if lectures %}
+            {% for lecture in lectures %}
+              {% if lecture == current_lecture %}
+                <li class="nav-item"><a class="active" href="{% url 'RecQuiz:lecture' course_name_slug=course.slug lec_id=lecture.lec_id %}">Lecture {{lecture.lec_id}}</a></li>
+              {% else %}
+                <li class="nav-item"><a href="{% url 'RecQuiz:lecture' course_name_slug=course.slug lec_id=lecture.lec_id  %}">Lecture {{lecture.lec_id}}</a></li>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+          {% endif %}
+        </ul>
+      </nav>
+      
+    </div>
+  </div>
+  </div>
+  
 
   <!-- Modal -->
   {% if quizs %}
-  {% for quiz in quizs %}
-  <div class="modal fade" id="Question{{quiz.quiz_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"> {{quiz.question}} </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <ul>
-            <li>{{quiz.answer1}}</li>
-            <li>{{quiz.answer2}}</li>
-            <li>{{quiz.answer3}}</li>
-            <li>{{quiz.answer3}}</li>
-          </ul>
-          <div>The correct answer is: {{quiz.correct_answer}}</div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+    {% for quiz in quizs %}
+      <div class="modal fade" id="Question{{quiz.quiz_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"> {{quiz.question}} </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ul>
+                <li>{{quiz.answer1}}</li>
+                <li>{{quiz.answer2}}</li>
+                <li>{{quiz.answer3}}</li>
+                <li>{{quiz.answer3}}</li>
+              </ul>
+              <div>The correct answer is: {{quiz.correct_answer}}</div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  {% endfor %}
+    {% endfor %}
   {% else %}
+
   {% endif %}
 </main>
-
+  {% endblock %}
